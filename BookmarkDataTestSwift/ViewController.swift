@@ -96,8 +96,18 @@ class ViewController: UIViewController {
     // MARK: Utility
     
     func documentsUrl() -> URL {
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        return URL(fileURLWithPath: documentsPath)
+        let docURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        // I want to bookmark a subdirectory called "mydirectory"
+        let dirURL = docURL.appendingPathComponent("mydirectory", isDirectory: true)
+        
+        if ensureDirectoryExists(url: dirURL) {
+            print("Bookmarking \(dirURL.path)")
+            return dirURL
+        } else {
+            print("Unable to bookmark \(dirURL.path). Using \(docURL.path)")
+            return docURL
+        }
+        
     }
     
     func processData(data: Data?) -> Void {
@@ -138,10 +148,26 @@ class ViewController: UIViewController {
     }
     
     func handleCaughtError(error: Error) {
-        print("Error converting URL to bookmark: \(String(describing: error))")
+        print("Error converting URL to bookmark: \(error.localizedDescription)")
     }
     
-    
-    
+    func ensureDirectoryExists(url: URL) -> Bool {
+        var isDirectory = ObjCBool(false)
+        let directoryExists = FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory)
+        
+        if (!directoryExists) {
+            do {
+                try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print(error.localizedDescription)
+            }
+        } else if (!isDirectory.boolValue) {
+            print("I don't want to bookmark a file. Only a directory.")
+            return false
+        }
+        
+        return true
+    }
     
 }
+

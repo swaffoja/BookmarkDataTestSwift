@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         var data: Data?
         
         do {
-            print("Bookmarking \(url.path)")
+            print("1) Bookmarking \(url.path)")
             data = try url.bookmarkData(options: .suitableForBookmarkFile, includingResourceValuesForKeys: nil, relativeTo: nil)
         } catch {
             handleCaughtError(error: error)
@@ -68,7 +68,7 @@ class ViewController: UIViewController {
     func readBookmark(data: Data) -> Bool {
         var isStale: Bool = false
         if let url = try? URL(resolvingBookmarkData: data, options: [], relativeTo: nil, bookmarkDataIsStale: &isStale) {
-            print("Bookmark is: \(url!.description))")
+            print("2) Bookmark is: \(url!.description))")
             return true
         } else {
             print("Could not read bookmark")

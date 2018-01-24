@@ -19,42 +19,25 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T9z-1R-GEj">
-                                <rect key="frame" x="171" y="328.5" width="33" height="30"/>
-                                <state key="normal" title="Try 1"/>
+                                <rect key="frame" x="98" y="328.5" width="180" height="30"/>
+                                <state key="normal" title="Bookmark Document Root"/>
                                 <connections>
                                     <action selector="try1:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DBV-Yd-9N2"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vJ3-Fl-Idl">
-                                <rect key="frame" x="170" y="366" width="35" height="30"/>
-                                <state key="normal" title="Try 2"/>
+                                <rect key="frame" x="69" y="366" width="237" height="30"/>
+                                <state key="normal" title="Bookmark Document Subdirectory"/>
                                 <connections>
                                     <action selector="try2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nVo-Ph-VX5"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DXT-II-nRc">
-                                <rect key="frame" x="170" y="404" width="35" height="30"/>
-                                <state key="normal" title="Try 3"/>
-                                <connections>
-                                    <action selector="try3:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Jz7-St-kCu"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j8J-5W-1Qe">
-                                <rect key="frame" x="170" y="442" width="35" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Try 4"/>
-                                <connections>
-                                    <action selector="try4:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R7o-P0-NXf"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="DXT-II-nRc" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="S0y-tj-9Sk"/>
                             <constraint firstItem="vJ3-Fl-Idl" firstAttribute="top" secondItem="T9z-1R-GEj" secondAttribute="bottom" constant="7.5" id="aEa-kh-4gi"/>
                             <constraint firstItem="vJ3-Fl-Idl" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="fhj-6w-bhj"/>
                             <constraint firstItem="T9z-1R-GEj" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="gcz-r2-wDR"/>
-                            <constraint firstItem="DXT-II-nRc" firstAttribute="top" secondItem="vJ3-Fl-Idl" secondAttribute="bottom" constant="8" id="vuG-Ho-YeL"/>
                             <constraint firstItem="T9z-1R-GEj" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="xMU-QU-eFf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>

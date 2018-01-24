@@ -11,11 +11,18 @@ import UIKit
 class ViewController: UIViewController {
 
     @IBAction func try1(_ sender: Any) {
-        
+        tryBookmarking(url: documentsUrl())
+    }
+    
+    @IBAction func try2(_ sender: Any) {
+        tryBookmarking(url: documentsSubdirectoryUrl())
+    }
+    
+    func tryBookmarking(url: URL) {
         var data: Data?
-        let url = documentsUrl()
         
         do {
+            print("Bookmarking \(url.path)")
             data = try url.bookmarkData(options: .suitableForBookmarkFile, includingResourceValuesForKeys: nil, relativeTo: nil)
         } catch {
             handleCaughtError(error: error)
@@ -25,89 +32,23 @@ class ViewController: UIViewController {
     }
     
     
-    @IBAction func try2(_ sender: Any) {
-
-        var data: Data?
-        let url = documentsUrl()
-        
-        let group = DispatchGroup()
-        group.enter()
-        
-        DispatchQueue.global(qos: .background).async {
-            do {
-                data = try url.bookmarkData(options: .suitableForBookmarkFile, includingResourceValuesForKeys: nil, relativeTo: nil)
-                group.leave()
-            } catch {
-                self.handleCaughtError(error: error)
-            }
-        }
-        
-        group.wait()
-        
-        processData(data: data)
-        
-    }
-    
-    @IBAction func try3(_ sender: Any) {
-        
-        var data: Data?
-        let url = documentsUrl()
-        
-        let semaphore = DispatchSemaphore(value: 1)
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-            semaphore.wait()
-            do {
-                data = try url.bookmarkData(options: .suitableForBookmarkFile, includingResourceValuesForKeys: nil, relativeTo: nil)
-            } catch {
-                self.handleCaughtError(error: error)
-            }
-            semaphore.signal()
-        }
-        
-        processData(data: data)
-        
-    }
-    
-    @IBAction func try4(_ sender: Any) {
-        
-        var data: Data?
-        let url = documentsUrl()
-        
-        
-        let group = DispatchGroup()
-        group.enter()
-        
-        DispatchQueue.global(qos: .background).async {
-            do {
-                data = try url.bookmarkData(options: .suitableForBookmarkFile, includingResourceValuesForKeys: nil, relativeTo: nil)
-                group.leave()
-            } catch {
-                self.handleCaughtError(error: error)
-            }
-        }
-        
-        group.notify(queue: .main) {
-            self.processData(data: data)
-        }
-        
-    }
     
     // MARK: Utility
     
     func documentsUrl() -> URL {
-        let docURL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        // I want to bookmark a subdirectory called "mydirectory"
-        let dirURL = docURL.appendingPathComponent("mydirectory", isDirectory: true)
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
+    
+    func documentsSubdirectoryUrl() -> URL {
+        let dirURL = documentsUrl().appendingPathComponent("mysubdirectory", isDirectory: true)
         
         if ensureDirectoryExists(url: dirURL) {
-            print("Bookmarking \(dirURL.path)")
             return dirURL
         } else {
-            print("Unable to bookmark \(dirURL.path). Using \(docURL.path)")
-            return docURL
+            print("Could not create directory \(dirURL.path).")
+            return documentsUrl()
         }
-        
+
     }
     
     func processData(data: Data?) -> Void {
@@ -127,7 +68,7 @@ class ViewController: UIViewController {
     func readBookmark(data: Data) -> Bool {
         var isStale: Bool = false
         if let url = try? URL(resolvingBookmarkData: data, options: [], relativeTo: nil, bookmarkDataIsStale: &isStale) {
-            print("Bookmark is: \(String(describing: url))")
+            print("Bookmark is: \(url!.description))")
             return true
         } else {
             print("Could not read bookmark")
@@ -136,7 +77,7 @@ class ViewController: UIViewController {
     }
     
     func showSuccess() -> Void {
-        let alert = UIAlertController(title: "Bookmark did not deadlock", message: "Try again", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Bookmark did not deadlock", message: "Read debugging console", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true)
     }
